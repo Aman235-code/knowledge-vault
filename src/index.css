@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* small helper so we can apply the handwritten font only to the editor */
+.editor-handwritten {
+  font-family: "Patrick Hand", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* some light defaults */
+body {
+  @apply bg-gray-50 text-gray-800;
+}
