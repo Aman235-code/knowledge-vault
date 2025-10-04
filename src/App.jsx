@@ -100,9 +100,10 @@ export default function App() {
         <section className="w-80 border-r bg-white overflow-y-auto">
           <CardList
             cards={selectedTopic?.cards || []}
-            topic={selectedTopic}
             onSelectCard={handleSelectCard}
             onAddCard={handleAddCard}
+            topic={selectedTopic}
+            selectedCardId={selectedCardId}
           />
         </section>
 

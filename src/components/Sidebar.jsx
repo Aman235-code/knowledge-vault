@@ -51,17 +51,22 @@ export default function Sidebar({
         className="bg-gradient-to-b from-indigo-50 to-white border-r flex flex-col overflow-hidden relative"
       >
         {/* Drawer toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="absolute top-2 right-2 p-1 rounded hover:bg-gray-100 z-10"
-        >
-          {isOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
+        <div className="flex items-center justify-between p-3">
+          <div className="relative flex items-center">
+            {isOpen && <span className="ml-2 font-semibold text-indigo-700 text-lg">Topics</span>}
+          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-1 rounded hover:bg-gray-100"
+          >
+            {isOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
 
-        <div className="flex flex-col flex-1 p-4 gap-2">
-          <nav className="flex-1">
+        <div className="flex flex-col flex-1 p-2 gap-2">
+          <nav className="flex-1 mt-2">
             {topics.map((t) => (
-              <div key={t.id} className="mb-2">
+              <div key={t.id} className="mb-2 relative group">
                 <button
                   onClick={() => onSelectTopic(t.id)}
                   className={`w-full flex items-center justify-between px-3 py-3 rounded-lg transition ${
@@ -70,9 +75,15 @@ export default function Sidebar({
                       : "hover:bg-gray-50 text-gray-700"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     {getIcon(t)}
-                    {isOpen && <span>{t.name}</span>}
+                    {isOpen ? (
+                      <span>{t.name}</span>
+                    ) : (
+                      <span className="absolute left-16 bg-gray-50 px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-all">
+                        {t.name}
+                      </span>
+                    )}
                   </div>
                   {isOpen && (
                     <span
@@ -82,11 +93,7 @@ export default function Sidebar({
                       }}
                       className="cursor-pointer mt-0.5"
                     >
-                      {expanded[t.id] ? (
-                        <ChevronDown size={16} />
-                      ) : (
-                        <ChevronRight size={16} />
-                      )}
+                      {expanded[t.id] ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                     </span>
                   )}
                 </button>
@@ -97,7 +104,7 @@ export default function Sidebar({
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="ml-8 mt-1 flex flex-col gap-1"
+                      className="ml-10 mt-1 flex flex-col gap-1"
                     >
                       {t.cards.map((card) => (
                         <button
@@ -118,7 +125,11 @@ export default function Sidebar({
           {/* New Topic button at the bottom */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
+            className={`mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition ${
+              isOpen
+                ? "bg-indigo-600 hover:bg-indigo-700"
+                : "bg-indigo-500 hover:bg-indigo-600 justify-center"
+            }`}
           >
             <Plus size={16} />
             {isOpen && "New Topic"}

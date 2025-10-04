@@ -38,24 +38,29 @@ export default function Editor({ card, onSave }) {
         style={{ minHeight: "400px" }} // fixed height
       />
 
-      {/* Save button below editor */}
-      <motion.button
-        onClick={() => {
-          onSave({ ...card, content: text });
-          setIsDirty(false);
-        }}
-        whileHover={{ scale: isDirty ? 1.03 : 1, boxShadow: isDirty ? "0 4px 12px rgba(0,0,0,0.15)" : "none" }}
-        whileTap={{ scale: isDirty ? 0.97 : 1 }}
-        disabled={!isDirty}
-        className={`mt-3 flex items-center gap-2 px-4 py-2 rounded-md text-white font-medium transition ${
-          isDirty
-            ? "bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
-            : "bg-gray-300 cursor-not-allowed"
-        }`}
-      >
-        <Save size={16} />
-        Save
-      </motion.button>
+      {/* Save button centered below editor */}
+      <div className="mt-4 flex justify-center">
+        <motion.button
+          onClick={() => {
+            onSave({ ...card, content: text });
+            setIsDirty(false);
+          }}
+          whileHover={{
+            scale: isDirty ? 1.03 : 1,
+            boxShadow: isDirty ? "0 4px 12px rgba(0,0,0,0.15)" : "none",
+          }}
+          whileTap={{ scale: isDirty ? 0.97 : 1 }}
+          disabled={!isDirty}
+          className={`flex items-center gap-2 px-6 py-2 rounded-md text-white font-medium transition ${
+            isDirty
+              ? "bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+              : "bg-gray-300 cursor-not-allowed"
+          }`}
+        >
+          <Save size={16} />
+          Save
+        </motion.button>
+      </div>
     </div>
   );
 }
