@@ -37,6 +37,7 @@ export default function App() {
   const selectedCard =
     selectedTopic?.cards?.find((c) => c.id === selectedCardId) || null;
 
+  // Add a new topic
   function handleAddTopic() {
     const name = prompt("New topic name");
     if (!name) return;
@@ -48,12 +49,14 @@ export default function App() {
     toast.success(`Topic "${name}" added`);
   }
 
+  // Select a topic
   function handleSelectTopic(id) {
     setSelectedTopicId(id);
     const topic = data.topics.find((t) => t.id === id);
     setSelectedCardId(topic?.cards?.[0]?.id || null);
   }
 
+  // Add a new card
   function handleAddCard() {
     const title = prompt("Card title");
     if (!title) return;
@@ -61,16 +64,17 @@ export default function App() {
     const nextTopics = data.topics.map((t) =>
       t.id === selectedTopicId ? { ...t, cards: [newCard, ...t.cards] } : t
     );
-    const next = { ...data, topics: nextTopics };
-    setData(next);
+    setData({ ...data, topics: nextTopics });
     setSelectedCardId(newCard.id);
     toast.success(`Card "${title}" created`);
   }
 
+  // Select a card
   function handleSelectCard(cardId) {
     setSelectedCardId(cardId);
   }
 
+  // Save card content
   function handleSaveCard(updatedCard) {
     const nextTopics = data.topics.map((t) => {
       if (t.id !== selectedTopicId) return t;
@@ -79,9 +83,29 @@ export default function App() {
         cards: t.cards.map((c) => (c.id === updatedCard.id ? updatedCard : c)),
       };
     });
-    const next = { ...data, topics: nextTopics };
-    setData(next);
+    setData({ ...data, topics: nextTopics });
     toast.success("Note saved");
+  }
+
+  // Delete a card
+  function handleDeleteCard(cardId) {
+    const nextTopics = data.topics.map((t) => {
+      if (t.id !== selectedTopicId) return t;
+      return {
+        ...t,
+        cards: t.cards.filter((c) => c.id !== cardId),
+      };
+    });
+
+    setData({ ...data, topics: nextTopics });
+
+    // If deleted card was selected, select first card or null
+    if (selectedCardId === cardId) {
+      const topic = nextTopics.find((t) => t.id === selectedTopicId);
+      setSelectedCardId(topic?.cards?.[0]?.id || null);
+    }
+
+    toast.success("Card deleted");
   }
 
   return (
@@ -102,6 +126,7 @@ export default function App() {
             cards={selectedTopic?.cards || []}
             onSelectCard={handleSelectCard}
             onAddCard={handleAddCard}
+            onDeleteCard={handleDeleteCard} // <-- Pass delete function
             topic={selectedTopic}
             selectedCardId={selectedCardId}
           />
