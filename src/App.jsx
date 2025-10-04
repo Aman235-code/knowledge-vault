@@ -4,7 +4,7 @@ import CardList from "./components/CardList";
 import Editor from "./components/Editor";
 import { loadData, saveData, resetData, generateId } from "./lib/storage";
 import { seed } from "./data/seed";
-import clsx from "clsx";
+import toast from "react-hot-toast";
 
 export default function App() {
   const [data, setData] = useState(() => loadData() || seed);
@@ -15,17 +15,18 @@ export default function App() {
     data.topics[0]?.cards?.[0]?.id || null
   );
 
+  // initialize if nothing in localStorage
   useEffect(() => {
-    // on first load if localStorage is empty, seed it
     const stored = loadData();
     if (!stored) {
       resetData(seed);
       setData(seed);
       setSelectedTopicId(seed.topics[0].id);
-      setSelectedCardId(seed.topics[0].cards[0].id);
+      setSelectedCardId(seed.topics[0].cards[0]?.id || null);
     }
   }, []);
 
+  // persist changes
   useEffect(() => {
     saveData(data);
   }, [data]);
@@ -44,6 +45,7 @@ export default function App() {
     setData(next);
     setSelectedTopicId(newTopic.id);
     setSelectedCardId(null);
+    toast.success(`Topic "${name}" added`);
   }
 
   function handleSelectTopic(id) {
@@ -62,6 +64,7 @@ export default function App() {
     const next = { ...data, topics: nextTopics };
     setData(next);
     setSelectedCardId(newCard.id);
+    toast.success(`Card "${title}" created`);
   }
 
   function handleSelectCard(cardId) {
@@ -78,11 +81,12 @@ export default function App() {
     });
     const next = { ...data, topics: nextTopics };
     setData(next);
-    // localStorage saved automatically by effect
+    toast.success("Note saved");
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gray-50">
+      {/* Sidebar */}
       <Sidebar
         topics={topics}
         selectedTopicId={selectedTopicId}
@@ -90,19 +94,26 @@ export default function App() {
         onAddTopic={handleAddTopic}
       />
 
-      <main className="flex-1 p-6 overflow-auto">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 gap-4">
+      {/* Main content area */}
+      <main className="flex-1 flex overflow-hidden">
+        {/* Cards */}
+        <section className="w-80 border-r bg-white overflow-y-auto">
           <CardList
             cards={selectedTopic?.cards || []}
             onSelectCard={handleSelectCard}
             onAddCard={handleAddCard}
           />
-        </div>
-      </main>
+        </section>
 
-      <section className="w-96 border-l bg-white">
-        <Editor card={selectedCard} onSave={handleSaveCard} />
-      </section>
+        {/* Editor */}
+        <section className="flex-1 bg-white border-l overflow-y-auto">
+          {selectedCard ? (
+            <Editor card={selectedCard} onSave={handleSaveCard} />
+          ) : (
+            <div className="p-4 text-gray-500">Select a card to edit notes</div>
+          )}
+        </section>
+      </main>
     </div>
   );
 }

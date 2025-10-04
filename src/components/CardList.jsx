@@ -9,7 +9,7 @@ export default function CardList({ cards = [], onSelectCard, onAddCard }) {
         <h3 className="text-md font-semibold">Cards</h3>
         <button
           onClick={onAddCard}
-          className="inline-flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100"
+          className="inline-flex items-center gap-2 px-2 py-1 rounded hover:bg-indigo-100 text-indigo-600"
         >
           <FiPlusCircle />
           New
@@ -23,9 +23,9 @@ export default function CardList({ cards = [], onSelectCard, onAddCard }) {
             onClick={() => onSelectCard(card.id)}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.99 }}
-            className="text-left bg-white p-3 rounded-lg shadow-sm border hover:shadow-md"
+            className="text-left bg-white p-4 rounded-xl shadow hover:shadow-md border transition"
           >
-            <div className="font-medium">{card.title}</div>
+            <div className="font-medium text-indigo-700">{card.title}</div>
             <div className="text-sm text-gray-500 mt-1 line-clamp-2">
               {card.content || "No notes yet"}
             </div>
