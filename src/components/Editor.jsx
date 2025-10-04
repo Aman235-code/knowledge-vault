@@ -58,7 +58,7 @@ export default function Editor({ card, onSave }) {
           }`}
         >
           <Save size={16} />
-          Save
+          Save Changes
         </motion.button>
       </div>
     </div>
