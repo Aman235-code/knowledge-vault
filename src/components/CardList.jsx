@@ -43,6 +43,11 @@ export default function CardList({
     return <FileText className="text-gray-300" size={18} />;
   }
 
+  // Calculate max height for cards section based on 6 cards
+  const cardHeight = 95; // Approx height of one card including margin/padding
+  const maxCardsVisible = 6;
+  const maxHeight = filteredCards.length > maxCardsVisible ? cardHeight * maxCardsVisible : "auto";
+
   return (
     <div className="p-4 h-full flex flex-col bg-[#2A2A2A] text-white">
       {/* Header */}
@@ -68,12 +73,10 @@ export default function CardList({
         className="mb-3 p-2 rounded border border-gray-600 bg-[#1F1F2B] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
       />
 
-      {/* Cards */}
+      {/* Cards section */}
       <div
-        className="flex-1 overflow-y-auto space-y-3 pr-1"
-        style={{
-          scrollbarWidth: "none",
-        }}
+        className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-hide"
+        style={{ maxHeight }}
       >
         {filteredCards.map((card) => {
           const isActive = selectedCardId === card.id;
@@ -125,10 +128,14 @@ export default function CardList({
         />
       )}
 
-      {/* Hide scrollbar for all browsers */}
-      <style>{`
-        .flex-1::-webkit-scrollbar {
+       {/* Hide scrollbar */}
+       <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
           display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </div>
