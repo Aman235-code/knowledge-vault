@@ -21,7 +21,6 @@ export default function CardList({
   const [search, setSearch] = useState("");
   const [deleteCard, setDeleteCard] = useState(null);
 
-  // Filter cards based on search input
   const filteredCards = useMemo(() => {
     if (!search) return cards;
     const lower = search.toLowerCase();
@@ -66,11 +65,16 @@ export default function CardList({
         placeholder="Search cards..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="mb-3 p-2 rounded border border-gray-600 bg-[#1F1F1F] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        className="mb-3 p-2 rounded border border-gray-600 bg-[#1F1F2B] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
       />
 
       {/* Cards */}
-      <div className="flex-1 overflow-y-auto space-y-3 scrollbar-hide pr-1">
+      <div
+        className="flex-1 overflow-y-auto space-y-3 pr-1"
+        style={{
+          scrollbarWidth: "none",
+        }}
+      >
         {filteredCards.map((card) => {
           const isActive = selectedCardId === card.id;
           return (
@@ -120,6 +124,13 @@ export default function CardList({
           }}
         />
       )}
+
+      {/* Hide scrollbar for all browsers */}
+      <style>{`
+        .flex-1::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 }

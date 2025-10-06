@@ -7,8 +7,8 @@ import {
   GitBranch,
   Folder,
   X,
-  Container,
-  Workflow
+  // Container,
+  // Workflow
 } from "lucide-react";
 
 // Extended icons array
@@ -17,8 +17,8 @@ const ICONS = [
   { name: "Database", component: <Database size={18} className="text-[#4DB33D]" /> },
   { name: "GitBranch", component: <GitBranch size={18} className="text-[#5C6AC4]" /> },
   { name: "Folder", component: <Folder size={18} className="text-[#AAAAAA]" /> },
-  { name: "Container", component: <Container size={18} className="text-[#5C6AC4]" /> },
-  { name: "Workflow", component: <Workflow size={18} className="text-[#4DB33D]" /> },
+  // { name: "Container", component: <Container size={18} className="text-[#5C6AC4]" /> },
+  // { name: "Workflow", component: <Workflow size={18} className="text-[#4DB33D]" /> },
 ];
 
 export default function NewTopicModal({ isOpen, onClose, onAdd }) {
