@@ -18,27 +18,31 @@ export default function Editor({ card, onSave }) {
   };
 
   if (!card) {
-    return <div className="p-6 text-gray-500">Select a card to start editing</div>;
+    return (
+      <div className="p-6 text-gray-400 bg-[#1F2233] h-full flex items-center justify-center rounded-lg">
+        Select a card to start editing
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col h-full p-4">
+    <div className="flex flex-col h-full p-4 bg-[#252836] text-white">
       {/* Header */}
       <div className="mb-3 flex items-center gap-2">
-        <Edit3 size={20} className="text-indigo-500" />
-        <h4 className="font-semibold text-gray-800 text-lg">{card.title}</h4>
+        <Edit3 size={20} className="text-yellow-400" />
+        <h4 className="font-semibold text-white text-lg">{card.title}</h4>
       </div>
 
-      {/* Editor box with fixed height */}
+      {/* Editor box */}
       <textarea
-        className="flex-1 resize-none rounded-lg p-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-300 editor-handwritten text-lg leading-relaxed bg-gray-50"
+        className="flex-1 resize-none rounded-lg p-4 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 editor-handwritten text-lg leading-relaxed bg-[#1E1F2B] text-white placeholder-gray-400"
         value={text}
         onChange={handleChange}
         placeholder="Write your note..."
-        style={{ minHeight: "400px" }} // fixed height
+        style={{ minHeight: "400px" }}
       />
 
-      {/* Save button centered below editor */}
+      {/* Save button */}
       <div className="mt-4 flex justify-center">
         <motion.button
           onClick={() => {
@@ -47,14 +51,14 @@ export default function Editor({ card, onSave }) {
           }}
           whileHover={{
             scale: isDirty ? 1.03 : 1,
-            boxShadow: isDirty ? "0 4px 12px rgba(0,0,0,0.15)" : "none",
+            boxShadow: isDirty ? "0 4px 12px rgba(0,0,0,0.3)" : "none",
           }}
           whileTap={{ scale: isDirty ? 0.97 : 1 }}
           disabled={!isDirty}
-          className={`flex items-center gap-2 px-6 py-2 rounded-md text-white font-medium transition ${
+          className={`flex items-center gap-2 px-6 py-2 rounded-md font-medium transition ${
             isDirty
-              ? "bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
-              : "bg-gray-300 cursor-not-allowed"
+              ? "bg-yellow-500 hover:bg-yellow-600 cursor-pointer text-white"
+              : "bg-gray-600 cursor-not-allowed text-gray-300"
           }`}
         >
           <Save size={16} />

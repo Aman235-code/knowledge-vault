@@ -2,7 +2,7 @@
 
 /* small helper so we can apply the handwritten font only to the editor */
 .editor-handwritten {
-  /* font-family: "Patrick Hand", cursive; */
+  font-family: "Patrick Hand", cursive;
   /* font-family: 'Dancing Script', cursive; */
-  font-family: 'Caveat', cursive;
+  /* font-family: 'Caveat', cursive; */
 }

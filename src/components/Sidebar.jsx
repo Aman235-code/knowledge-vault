@@ -30,15 +30,15 @@ export default function Sidebar({
   };
 
   const topicIcons = {
-    aws: <Cloud size={16} className="text-orange-500" />,
-    mongodb: <Database size={16} className="text-green-600" />,
-    cicd: <GitBranch size={16} className="text-indigo-600" />,
+    aws: <Cloud size={16} className="text-[#FF9900]" />,
+    mongodb: <Database size={16} className="text-[#4DB33D]" />,
+    cicd: <GitBranch size={16} className="text-[#5C6AC4]" />,
   };
 
   function getIcon(topic) {
     if (topic.icon) return topic.icon;
     const key = topic.name.toLowerCase();
-    return topicIcons[key] || <Folder size={16} className="text-gray-400" />;
+    return topicIcons[key] || <Folder size={16} className="text-[#AAAAAA]" />;
   }
 
   const drawerWidth = isOpen ? 256 : 64;
@@ -48,16 +48,16 @@ export default function Sidebar({
       <motion.aside
         animate={{ width: drawerWidth }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        className="bg-gradient-to-b from-indigo-50 to-white border-r flex flex-col overflow-hidden relative"
+        className="bg-[#1F1F1F] border-r border-[#333333] flex flex-col overflow-hidden relative text-white"
       >
         {/* Drawer toggle */}
         <div className="flex items-center justify-between p-3">
           <div className="relative flex items-center">
-            {isOpen && <span className="ml-2 font-semibold text-indigo-700 text-lg">Topics</span>}
+            {isOpen && <span className="ml-2 font-semibold text-white text-lg">Topics</span>}
           </div>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-1 rounded hover:bg-gray-100"
+            className="p-1 rounded hover:bg-[#2A2A2A]"
           >
             {isOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -71,8 +71,8 @@ export default function Sidebar({
                   onClick={() => onSelectTopic(t.id)}
                   className={`w-full flex items-center justify-between px-3 py-3 rounded-lg transition ${
                     t.id === selectedTopicId
-                      ? "bg-indigo-100 text-indigo-700 font-medium shadow-sm"
-                      : "hover:bg-gray-50 text-gray-700"
+                      ? "bg-[#333333] text-[#FFCC00] font-medium shadow-sm"
+                      : "hover:bg-[#2A2A2A] text-[#EEEEEE]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -80,7 +80,7 @@ export default function Sidebar({
                     {isOpen ? (
                       <span>{t.name}</span>
                     ) : (
-                      <span className="absolute left-16 bg-gray-50 px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-all">
+                      <span className="absolute left-16 bg-[#2A2A2A] px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-all text-white">
                         {t.name}
                       </span>
                     )}
@@ -110,7 +110,7 @@ export default function Sidebar({
                         <button
                           key={card.id}
                           onClick={() => onSelectCard(card.id)}
-                          className="text-sm text-left px-2 py-1 rounded hover:bg-indigo-50 text-gray-600"
+                          className="text-sm text-left px-2 py-1 rounded hover:bg-[#3A3A3A] text-[#CCCCCC]"
                         >
                           {card.title}
                         </button>
@@ -122,13 +122,13 @@ export default function Sidebar({
             ))}
           </nav>
 
-          {/* New Topic button at the bottom */}
+          {/* New Topic button */}
           <button
             onClick={() => setIsModalOpen(true)}
             className={`mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition ${
               isOpen
-                ? "bg-indigo-600 hover:bg-indigo-700"
-                : "bg-indigo-500 hover:bg-indigo-600 justify-center"
+                ? "bg-[#5C6AC4] hover:bg-[#4B55A5]"
+                : "bg-[#4B55A5] hover:bg-[#3B4380] justify-center"
             }`}
           >
             <Plus size={16} />
