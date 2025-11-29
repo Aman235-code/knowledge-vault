@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import CardList from "./components/CardList";
@@ -15,7 +16,6 @@ export default function App() {
     data.topics[0]?.cards?.[0]?.id || null
   );
 
-  // initialize if nothing in localStorage
   useEffect(() => {
     const stored = loadData();
     if (!stored) {
@@ -26,7 +26,6 @@ export default function App() {
     }
   }, []);
 
-  // persist changes
   useEffect(() => {
     saveData(data);
   }, [data]);
@@ -37,26 +36,27 @@ export default function App() {
   const selectedCard =
     selectedTopic?.cards?.find((c) => c.id === selectedCardId) || null;
 
-  // Add a new topic
-  function handleAddTopic() {
-    const name = prompt("New topic name");
-    if (!name) return;
-    const newTopic = { id: generateId(), name, cards: [] };
+  function handleAddTopic({ name, icon }) {
+    const newTopic = {
+      id: generateId(),
+      name,
+      icon,
+      cards: [],
+    };
+
     const next = { ...data, topics: [newTopic, ...data.topics] };
     setData(next);
+
     setSelectedTopicId(newTopic.id);
     setSelectedCardId(null);
-    toast.success(`Topic "${name}" added`);
   }
 
-  // Select a topic
   function handleSelectTopic(id) {
     setSelectedTopicId(id);
     const topic = data.topics.find((t) => t.id === id);
     setSelectedCardId(topic?.cards?.[0]?.id || null);
   }
 
-  // Add a new card
   function handleAddCard() {
     const title = prompt("Card title");
     if (!title) return;
@@ -69,12 +69,10 @@ export default function App() {
     toast.success(`Card "${title}" created`);
   }
 
-  // Select a card
   function handleSelectCard(cardId) {
     setSelectedCardId(cardId);
   }
 
-  // Save card content
   function handleSaveCard(updatedCard) {
     const nextTopics = data.topics.map((t) => {
       if (t.id !== selectedTopicId) return t;
@@ -87,7 +85,6 @@ export default function App() {
     toast.success("Note saved");
   }
 
-  // Delete a card
   function handleDeleteCard(cardId) {
     const nextTopics = data.topics.map((t) => {
       if (t.id !== selectedTopicId) return t;
@@ -99,7 +96,6 @@ export default function App() {
 
     setData({ ...data, topics: nextTopics });
 
-    // If deleted card was selected, select first card or null
     if (selectedCardId === cardId) {
       const topic = nextTopics.find((t) => t.id === selectedTopicId);
       setSelectedCardId(topic?.cards?.[0]?.id || null);
@@ -108,31 +104,46 @@ export default function App() {
     toast.success("Card deleted");
   }
 
+  // 🔥 DELETE TOPIC
+  function handleDeleteTopic(topicId) {
+    if (!confirm("Delete this topic?")) return;
+
+    const nextTopics = data.topics.filter((t) => t.id !== topicId);
+    setData({ ...data, topics: nextTopics });
+
+    // If deleted topic was selected
+    if (selectedTopicId === topicId) {
+      const first = nextTopics[0] || null;
+      setSelectedTopicId(first?.id || null);
+      setSelectedCardId(first?.cards?.[0]?.id || null);
+    }
+
+    toast.success("Topic deleted");
+  }
+
   return (
     <div className="min-h-screen flex bg-gray-50">
-      {/* Sidebar */}
       <Sidebar
         topics={topics}
         selectedTopicId={selectedTopicId}
         onSelectTopic={handleSelectTopic}
         onAddTopic={handleAddTopic}
+        onDeleteTopic={handleDeleteTopic} // <-- added
+        onSelectCard={handleSelectCard}
       />
 
-      {/* Main content area */}
       <main className="flex-1 flex overflow-hidden">
-        {/* Cards */}
         <section className="w-80 border-r bg-white overflow-y-auto">
           <CardList
             cards={selectedTopic?.cards || []}
             onSelectCard={handleSelectCard}
             onAddCard={handleAddCard}
-            onDeleteCard={handleDeleteCard} // <-- Pass delete function
+            onDeleteCard={handleDeleteCard}
             topic={selectedTopic}
             selectedCardId={selectedCardId}
           />
         </section>
 
-        {/* Editor */}
         <section className="flex-1 bg-white border-l overflow-y-auto">
           {selectedCard ? (
             <Editor card={selectedCard} onSave={handleSaveCard} />
