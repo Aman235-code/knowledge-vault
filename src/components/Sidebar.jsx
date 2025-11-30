@@ -75,6 +75,7 @@ export default function Sidebar({
   };
 
   function getIcon(topic) {
+    console.log(topic)
     const key = topic.name.toLowerCase();
 
     return topicIcons[key] || <Folder size={16} className="text-[#AAAAAA]" />;
@@ -175,8 +176,8 @@ export default function Sidebar({
                             >
                               {/* Icon based on the card title */}
                               <span className="flex-shrink-0">
-                                {/* {card.title} */}
-                                {getIcon(card.name)}
+                                {card.title}
+                                {/* {getIcon(card.name)} */}
                               </span>
                             </button>
                           ))}
